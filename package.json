@@ -8,11 +8,11 @@
     "dev": "vite",
     "typecheck": "tsc -p tsconfig.json",
     "sitemap": "node scripts/sitemap.cjs",
-    "build": "vite build --sourcemap",
+    "build": "vite build",
     "postbuild": "node scripts/postbuild.js",
     "lint": "eslint src --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "serve": "node dist/server --enable-logs",
+    "serve": "node dist/server",
     "pretty": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,css}\" \"./server.js\""
   },
   "dependencies": {

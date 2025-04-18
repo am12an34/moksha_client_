@@ -20,6 +20,7 @@ export default function createRequest(url: string, options: RequestOptions = {})
   }
 
   console.log("options: ", options);
+  alert(`options: ${options}`);
 
   if (options?.method && options.method !== 'GET') {
     console.log("options method is not get")

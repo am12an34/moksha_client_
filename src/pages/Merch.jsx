@@ -146,7 +146,6 @@ export function Component() {
               } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, textShadow: { duration: 2, repeat: Infinity } }}
             >
-              ECHOES OF ERDEN MERCH
               <motion.span
                 className="absolute -inset-1 rounded-lg blur-sm bg-amber-400/20 z-0"
                 animate={{ opacity: [0.2, 0.5, 0.2] }}

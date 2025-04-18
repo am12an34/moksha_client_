@@ -26,6 +26,7 @@ export default function createRequest(url: string, options: RequestOptions = {})
     console.log("options method is not get")
     alert("options method is not get");
     const csrftoken = getCookie('csrftoken')
+    alert(`csrftoken: ${csrftoken}`);
     if (csrftoken) {
       console.log("csrftoken: ", csrftoken);
       alert(`csrftoken: ${csrftoken}`);

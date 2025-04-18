@@ -2,6 +2,7 @@ import { classNames } from '@arpansaha13/utils';
 import Container from '~common/Container';
 import styles from './styles.module.css';
 import { motion } from 'framer-motion';
+import { MutableRefObject } from 'react';
 
 export default function Hero() {
   // Adjusted sizes for better responsiveness

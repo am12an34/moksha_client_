@@ -1,6 +1,12 @@
 import Container from '~common/Container'
 import styles from './styles.module.css'
+import { MutableRefObject, useRef } from 'react'
 
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import ScrollTrigger from 'gsap/dist/ScrollTrigger';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 
 const MEDIA = Object.freeze({
@@ -99,10 +105,11 @@ const EleganciaTeaser = () => (
 )
 
 export default function Specials() {
+
   return (
-    <section className={`${styles['specials-bg']}`}>
+    <section  className={`${styles['specials-bg']} relative`} >
       <Container className='lg:h-cover lg:max-h-[38rem] pt-8 pb-8 sm:pb-0 sm:pt-12 flex items-center justify-center'>
-        <div className='w-full grid grid-rows-4 grid-cols-2 sm:grid-cols-3 lg:grid-rows-2 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4'>
+        <div  className='w-full grid grid-rows-4 grid-cols-2 sm:grid-cols-3 lg:grid-rows-2 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4'>
           <div className='col-span-2 sm:col-span-3 lg:col-span-2 xl:col-span-3'>
             <h2 className='mb-4'>
               <p className='text-lg sm:text-xl'>The</p>

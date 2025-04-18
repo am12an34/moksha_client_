@@ -1,15 +1,11 @@
-import { useMemo, useRef, useLayoutEffect } from 'react'
+import { useMemo, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import { useMediaQuery } from 'react-responsive'
-import { defineCustomElement } from '@tranzis/core/dist/components/tz-gallery-1'
 import { classNames } from '@arpansaha13/utils'
 import Container from '~common/Container'
 import { motion, useInView } from 'framer-motion'
 
-defineCustomElement()
-
 export function Component() {
-  const tzGallery1Ref = useRef(null)
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: false, amount: 0.3 })
   const isMobile = useMediaQuery({ query: '(max-width: 639px)' })
@@ -37,18 +33,7 @@ export function Component() {
     []
   )
 
-  useLayoutEffect(() => {
-    tzGallery1Ref.current.pictures = [
-      {
-        sources: [
-          { srcSet: 'images/merch/black-1024x900.webp', type: 'image/webp' },
-          { srcSet: 'images/merch/black-1024x900.png', type: 'image/png' },
-        ],
-        src: 'images/merch/black-1024x900.png',
-        alt: 'Moksha 2024 merch (black)',
-      },
-    ]
-  }, [])
+  // No useLayoutEffect needed anymore as we're using direct image tags
 
   return (
     <>
@@ -170,50 +155,60 @@ export function Component() {
             </motion.h1>
           </div>
 
-          <div className='grid md:grid-cols-2 gap-8 items-start'>
-            {/* Merchandise image */}
+          {/* Featured Official Merch */}
+          <motion.div
+            className="mb-16 relative overflow-hidden rounded-xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Animated background glow */}
             <motion.div
-              className="relative p-1 rounded-xl flex justify-center"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              {/* Animated border glow */}
+              className="absolute -inset-1 bg-gradient-to-r from-green-500/30 via-amber-500/30 to-purple-500/30 rounded-xl blur-lg z-0"
+              animate={{
+                background: [
+                  'linear-gradient(90deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
+                  'linear-gradient(180deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
+                  'linear-gradient(270deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
+                  'linear-gradient(360deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
+                ],
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            />
+
+            <div className="relative bg-black/40 backdrop-blur-sm p-6 rounded-xl z-10 flex flex-col md:flex-row items-center gap-8">
+              {/* Featured image */}
               <motion.div
-                className="absolute -inset-1 bg-gradient-to-r from-green-400/30 via-amber-300/30 to-purple-500/30 rounded-xl blur-lg"
-                animate={{
-                  background: [
-                    'linear-gradient(90deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
-                    'linear-gradient(180deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
-                    'linear-gradient(270deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
-                    'linear-gradient(360deg, rgba(74, 222, 128, 0.3) 0%, rgba(252, 211, 77, 0.3) 50%, rgba(168, 85, 247, 0.3) 100%)',
-                  ],
-                }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              />
+                className="relative w-full max-w-md overflow-hidden rounded-lg"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <img
+                  src="images/merch/MOKSHA IX OFFICIAL MERCH (1).jpg"
+                  alt="MOKSHA IX OFFICIAL MERCH"
+                  className="w-full h-auto rounded-lg shadow-xl"
+                />
 
-              <div className='relative w-full max-w-md z-10'>
-                <tz-gallery-1 ref={tzGallery1Ref} />
-              </div>
-            </motion.div>
+                {/* Overlay with gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
 
-            {/* Size chart with thematic styling */}
-            <motion.div
-              className='overflow-auto scrollbar horizontal'
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <div className="relative bg-black/40 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                {/* Decorative elements */}
-                <div className="absolute top-2 left-2 w-12 h-12 opacity-20">
-                  <svg viewBox="0 0 24 24" className="w-full h-full text-teal-400">
-                    <path fill="currentColor" d="M12,3C16.97,3 21,7.03 21,12C21,16.97 16.97,21 12,21C7.03,21 3,16.97 3,12C3,7.03 7.03,3 12,3M12,5C8.14,5 5,8.14 5,12C5,15.86 8.14,19 12,19C15.86,19 19,15.86 19,12C19,8.14 15.86,5 12,5Z" />
-                  </svg>
-                </div>
+                {/* Floating badge */}
+                <motion.div
+                  className="absolute top-4 right-4 bg-amber-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+                  animate={{
+                    y: [0, -5, 0],
+                    scale: [1, 1.05, 1],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  OFFICIAL
+                </motion.div>
+              </motion.div>
 
-                <motion.h3
-                  className="text-2xl font-bold text-amber-400 mb-4 font-[Orbitron] text-center"
+              {/* Text content */}
+              <div className="flex-1 text-center md:text-left">
+                <motion.h2
+                  className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 font-[Orbitron]"
                   animate={{
                     textShadow: [
                       '0 0 3px rgba(255, 171, 64, 0.3)',
@@ -223,146 +218,142 @@ export function Component() {
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  SIZE CHART
-                </motion.h3>
+                  MOKSHA IX OFFICIAL MERCH
+                </motion.h2>
 
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  {/* T-shirt diagram */}
-                  <div className="relative bg-white/5 rounded-lg p-4 flex justify-center items-center">
-                    <svg viewBox="0 0 300 350" className="w-full max-w-xs">
-                      {/* T-shirt outline */}
-                      <path fill="none" stroke="#F3EBC6" strokeWidth="2" d="M75,50 C85,30 125,20 150,20 C175,20 215,30 225,50 L250,70 L240,100 L220,90 L220,300 L80,300 L80,90 L60,100 L50,70 L75,50 Z" />
-                      {/* Collar */}
-                      <path fill="none" stroke="#F3EBC6" strokeWidth="2" d="M120,30 C130,25 140,22 150,22 C160,22 170,25 180,30 C170,35 160,38 150,38 C140,38 130,35 120,30 Z" />
-                      {/* Sleeves */}
-                      <path fill="none" stroke="#F3EBC6" strokeWidth="2" d="M80,90 L50,120 M220,90 L250,120" />
+                <p className="text-gray-300 mb-6 max-w-lg">
+                  Embrace the mystical essence of Erden with our exclusive official merchandise.
+                  Each piece is crafted with premium quality materials, featuring enchanting designs
+                  that capture the magical spirit of MOKSHA IX.
+                </p>
 
-                      {/* Measurement lines */}
-                      {/* Chest */}
-                      <line x1="80" y1="120" x2="220" y2="120" stroke="#26a69a" strokeWidth="2" strokeDasharray="5,5" />
-                      <text x="150" y="115" textAnchor="middle" fill="#26a69a" fontSize="14">CHEST</text>
-
-                      {/* Length */}
-                      <line x1="150" y1="50" x2="150" y2="300" stroke="#26a69a" strokeWidth="2" strokeDasharray="5,5" />
-                      <text x="130" y="175" textAnchor="end" fill="#26a69a" fontSize="14" transform="rotate(-90, 130, 175)">LENGTH</text>
-
-                      {/* Shoulder */}
-                      <line x1="100" y1="60" x2="200" y2="60" stroke="#26a69a" strokeWidth="2" strokeDasharray="5,5" />
-                      <text x="150" y="55" textAnchor="middle" fill="#26a69a" fontSize="14">SHOULDER</text>
-
-                      {/* Sleeve */}
-                      <line x1="220" y1="90" x2="250" y2="120" stroke="#26a69a" strokeWidth="2" strokeDasharray="5,5" />
-                      <text x="245" y="100" textAnchor="middle" fill="#26a69a" fontSize="14" transform="rotate(45, 245, 100)">SLEEVE</text>
-                    </svg>
-                  </div>
-
-                  {/* Measurement descriptions */}
-                  <div className="space-y-4 text-sm">
+                {/* Features list */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                  {[
+                    "Premium Quality",
+                    "Limited Edition",
+                    "Comfortable Fit",
+                    "Unique Design"
+                  ].map((feature, idx) => (
                     <motion.div
-                      className="bg-white/5 rounded-lg p-3"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                      transition={{ duration: 0.5, delay: 0.6 }}
+                      key={feature}
+                      className="flex items-center gap-2 text-sm"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                      transition={{ duration: 0.5, delay: 0.2 + (idx * 0.1) }}
                     >
-                      <h4 className="text-teal-400 font-bold mb-1">CHEST:</h4>
-                      <p className="text-gray-300">Measure garment across the half chest.</p>
-                    </motion.div>
-
-                    <motion.div
-                      className="bg-white/5 rounded-lg p-3"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                      transition={{ duration: 0.5, delay: 0.7 }}
-                    >
-                      <h4 className="text-teal-400 font-bold mb-1">LENGTH:</h4>
-                      <p className="text-gray-300">Measure garment from the back of the neck to the waist.</p>
-                    </motion.div>
-
-                    <motion.div
-                      className="bg-white/5 rounded-lg p-3"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                      transition={{ duration: 0.5, delay: 0.8 }}
-                    >
-                      <h4 className="text-purple-400 font-bold mb-1">LARGER SIZES:</h4>
-                      <p className="text-gray-300">Larger sizes are also available as per your request.</p>
-                    </motion.div>
-                  </div>
-                </div>
-
-                {/* Size chart table */}
-                <div className="overflow-x-auto rounded-lg">
-                  <table className='w-full'>
-                    <thead>
-                      <tr className='bg-gradient-to-r from-purple-900/80 via-amber-900/80 to-teal-900/80'>
-                        {sizeChart.head.map((rowItem, i) => (
-                          <th key={i} className='p-3 uppercase text-white font-[Orbitron]'>
-                            {rowItem}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {sizeChart.body.map((row, rowIndex) => (
-                        <motion.tr
-                          key={row[0]}
-                          className={rowIndex % 2 === 0 ? 'bg-white/5' : 'bg-black/30'}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                          transition={{ duration: 0.3, delay: 0.9 + (rowIndex * 0.1) }}
-                        >
-                          {row.map((rowItem, i) => (
-                            <td
-                              key={i}
-                              className='p-3 text-center text-gray-200 border-b border-white/5'
-                            >
-                              {rowItem}
-                            </td>
-                          ))}
-                        </motion.tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="text-xs text-gray-400 mt-4 italic text-center">
-                  *All measurements are in inches<br />
-                  *Measurements may vary by ±5% all around
-                </div>
-
-                {/* Call to action button */}
-                <div className="mt-6 flex justify-center">
-                  <motion.button
-                    className="group relative px-3 py-1.5 bg-amber-600 rounded-md text-white text-xs
-                    overflow-hidden shadow-md flex items-center gap-1.5"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                    transition={{ duration: 0.5, delay: 1.5 }}
-                  >
-                    {/* Button glow effect */}
-                    <motion.span
-                      className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-amber-600/20 rounded-md"
-                      animate={{
-                        opacity: [0.5, 0.8, 0.5],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    />
-
-                    {/* Icon and text */}
-                    <span className="relative z-10 flex items-center gap-1.5">
-                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M17,18A2,2 0 0,1 19,20A2,2 0 0,1 17,22C15.89,22 15,21.1 15,20C15,18.89 15.89,18 17,18M1,2H4.27L5.21,4H20A1,1 0 0,1 21,5C21,5.17 20.95,5.34 20.88,5.5L17.3,11.97C16.96,12.58 16.3,13 15.55,13H8.1L7.2,14.63L7.17,14.75A0.25,0.25 0 0,0 7.42,15H19V17H7C5.89,17 5,16.1 5,15C5,14.65 5.09,14.32 5.24,14.04L6.6,11.59L3,4H1V2M7,18A2,2 0 0,1 9,20A2,2 0 0,1 7,22C5.89,22 5,21.1 5,20C5,18.89 5.89,18 7,18M16,11L18.78,6H6.14L8.5,11H16Z" />
+                      <svg className="w-5 h-5 text-green-400 flex-shrink-0" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
                       </svg>
-                      <span onClick={() => {
-                        window.location.href = 'https://forms.gle/sZjxpekc99fCpvRGA'
-                      }}>BUY</span>
-                    </span>
-                  </motion.button>
+                      <span className="text-gray-200">{feature}</span>
+                    </motion.div>
+                  ))}
                 </div>
+
+                {/* CTA Button */}
+                <motion.button
+                  className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-800 text-white font-medium rounded-md hover:from-green-700 hover:to-green-900 transition-all duration-300 shadow-lg hover:shadow-green-700/30 group flex items-center gap-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    window.location.href = 'https://forms.gle/sZjxpekc99fCpvRGA'
+                  }}
+                >
+                  <span>Get Yours Now</span>
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </motion.button>
               </div>
+            </div>
+          </motion.div>
+
+          {/* Additional Merchandise Images */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {/* First merchandise item */}
+            <motion.div
+              className="relative overflow-hidden rounded-lg group"
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.1,
+                hover: { duration: 0.3 }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70 z-10" />
+              <img
+                src="images/merch/black-1024x900.png"
+                alt="Moksha Merchandise - Black T-shirt"
+                className="w-full h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute bottom-0 left-0 p-4 z-20">
+                <h4 className="text-white font-bold text-lg">Black T-shirt</h4>
+                <p className="text-amber-300 text-sm">Official Moksha IX Merchandise</p>
+              </div>
+            </motion.div>
+
+            {/* Second merchandise item */}
+            <motion.div
+              className="relative overflow-hidden rounded-lg group"
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.2,
+                hover: { duration: 0.3 }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70 z-10" />
+              <img
+                src="images/merch/MOKSHA IX OFFICIAL MERCH (1).jpg"
+                alt="Moksha Merchandise - Official Design"
+                className="w-full h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute bottom-0 left-0 p-4 z-20">
+                <h4 className="text-white font-bold text-lg">Limited Edition</h4>
+                <p className="text-amber-300 text-sm">Exclusive Design Collection</p>
+              </div>
+            </motion.div>
+
+            {/* Call to action card */}
+            <motion.div
+              className="relative overflow-hidden rounded-lg bg-gradient-to-br from-amber-900/40 to-green-900/40 border border-amber-500/20 flex flex-col justify-center items-center p-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <motion.div
+                className="w-16 h-16 mb-4 text-amber-400"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <svg viewBox="0 0 24 24" className="w-full h-full">
+                  <path fill="currentColor" d="M17,18A2,2 0 0,1 19,20A2,2 0 0,1 17,22C15.89,22 15,21.1 15,20C15,18.89 15.89,18 17,18M1,2H4.27L5.21,4H20A1,1 0 0,1 21,5C21,5.17 20.95,5.34 20.88,5.5L17.3,11.97C16.96,12.58 16.3,13 15.55,13H8.1L7.2,14.63L7.17,14.75A0.25,0.25 0 0,0 7.42,15H19V17H7C5.89,17 5,16.1 5,15C5,14.65 5.09,14.32 5.24,14.04L6.6,11.59L3,4H1V2M7,18A2,2 0 0,1 9,20A2,2 0 0,1 7,22C5.89,22 5,21.1 5,20C5,18.89 5.89,18 7,18M16,11L18.78,6H6.14L8.5,11H16Z" />
+                </svg>
+              </motion.div>
+
+              <h3 className="text-xl font-bold text-amber-400 mb-3 text-center">Get Your Merch Now</h3>
+              <p className="text-gray-300 text-sm mb-6 text-center">Limited stock available. Order now to secure your exclusive Moksha IX merchandise.</p>
+
+              <motion.button
+                className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-800 text-white font-medium rounded-md hover:from-green-700 hover:to-green-900 transition-all duration-300 shadow-lg hover:shadow-green-700/30 group flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  window.location.href = 'https://forms.gle/sZjxpekc99fCpvRGA'
+                }}
+              >
+                <span>Order Now</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </motion.button>
             </motion.div>
           </div>
         </Container>

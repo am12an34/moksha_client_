@@ -1,6 +1,6 @@
-import { useState, memo, useRef } from 'react'
+import { useState, memo, useRef, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, Search, X } from 'lucide-react'
 import { slugify } from '@arpansaha13/utils'
 import Sheet from '~common/Sheet'
 import Container from '~common/Container'
@@ -12,6 +12,23 @@ import { motion, useInView, AnimatePresence } from 'framer-motion'
 export function Component() {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: false, amount: 0.2 })
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filteredFaqs, setFilteredFaqs] = useState(faqs)
+  const [activeCategory, setActiveCategory] = useState('all')
+
+  // Extract unique categories from FAQs
+  const categories = ['all', ...Array.from(new Set(faqs.map(faq => faq.category || 'general')))]
+
+  // Filter FAQs based on search term and category
+  useEffect(() => {
+    const filtered = faqs.filter(faq => {
+      const matchesSearch = faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesCategory = activeCategory === 'all' || faq.category === activeCategory
+      return matchesSearch && matchesCategory
+    })
+    setFilteredFaqs(filtered)
+  }, [searchTerm, activeCategory])
 
   return (
     <Container className="py-10">
@@ -76,14 +93,14 @@ export function Component() {
           ))}
         </div>
 
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-4xl sm:text-5xl font-extrabold text-center text-white mb-12 drop-shadow-lg font-[Orbitron] relative inline-block w-full"
+              className="text-4xl sm:text-5xl font-extrabold text-center text-white mb-8 drop-shadow-lg font-[Orbitron] relative inline-block w-full"
               animate={{
                 textShadow: [
                   '0 0 5px rgba(47, 175, 116, 0.5)',
@@ -99,6 +116,69 @@ export function Component() {
                 transition={{ duration: 2, repeat: Infinity }}
               />
             </motion.h1>
+
+            {/* Search bar */}
+            <motion.div
+              className="relative max-w-2xl mx-auto mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search questions..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-5 py-3 pl-12 pr-10 bg-darkBrown/50 backdrop-blur-sm border border-green-900/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-transparent transition-all duration-300"
+                />
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-400">
+                  <Search size={20} />
+                </div>
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Category tabs */}
+            <motion.div
+              className="flex flex-wrap justify-center gap-2 mb-8"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              {categories.map((category) => (
+                <motion.button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === category
+                    ? 'bg-gradient-to-r from-green-600 to-green-800 text-white shadow-lg'
+                    : 'bg-darkBrown/50 text-gray-300 hover:bg-darkBrown/70 border border-green-900/30'}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </motion.button>
+              ))}
+            </motion.div>
+
+            {/* Results count */}
+            {searchTerm && (
+              <motion.p
+                className="text-center text-gray-400 mb-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                Found {filteredFaqs.length} result{filteredFaqs.length !== 1 ? 's' : ''} for "{searchTerm}"
+              </motion.p>
+            )}
           </motion.div>
 
           <motion.div
@@ -107,10 +187,27 @@ export function Component() {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            {faqs.map((faq, index) => {
-              const slug = slugify(faq.question)
-              return <Faq key={slug} faq={faq} slug={slug} index={index} />
-            })}
+            {filteredFaqs.length > 0 ? (
+              filteredFaqs.map((faq, index) => {
+                const slug = slugify(faq.question)
+                return <Faq key={slug} faq={faq} slug={slug} index={index} />
+              })
+            ) : (
+              <motion.div
+                className="text-center py-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="inline-block p-4 rounded-full bg-darkBrown/50 mb-4">
+                  <Search size={32} className="text-gray-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">No results found</h3>
+                <p className="text-gray-400 max-w-md mx-auto">
+                  We couldn't find any FAQs matching your search. Try using different keywords or browse by category.
+                </p>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </section>
@@ -152,7 +249,7 @@ const Faq = memo(
       >
         <Sheet
           id={slug}
-          className={`p-6 sm:p-8 rounded-2xl shadow-xl transition-all duration-300 relative overflow-hidden group`}
+          className={`p-6 sm:p-8 rounded-2xl shadow-xl transition-all duration-300 relative overflow-hidden group ${open ? 'ring-1 ring-green-500/30' : 'hover:ring-1 hover:ring-green-500/20'}`}
         >
           {/* Glass effect background */}
           <div className="absolute inset-0 bg-gradient-to-br from-green-900/30 via-brown/20 to-darkBrown/30 backdrop-blur-md border border-white/10 -z-10" />
@@ -178,26 +275,33 @@ const Faq = memo(
             </svg>
           </div>
 
-          <div className="flex items-center justify-between mb-4 flex-col sm:flex-row relative z-10">
-            <h2 className="text-xl sm:text-2xl sm:w-3/4 font-bold text-white drop-shadow-sm">{faq.question}</h2>
-            <motion.button
+          <div className="flex items-center justify-between mb-4 relative z-10">
+            <button
               onClick={() => setOpen(!open)}
-              className="mt-3 sm:mt-0 text-sm font-semibold sm:w-1/4 px-4 py-2 bg-gradient-to-r from-green-600/90 to-brown/90 text-white rounded-xl shadow-md hover:from-green-500/90 hover:to-darkBrown/90 transition backdrop-blur-sm border border-white/10"
+              className="w-full text-left flex justify-between items-center gap-4 group"
               aria-expanded={open}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
             >
-              {open ? (
-                <div className="flex items-center gap-1 justify-center">
-                  <ChevronUp className="w-4 h-4" /> Hide Answer
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 justify-center">
-                  <ChevronDown className="w-4 h-4" /> Show Answer
-                </div>
-              )}
-            </motion.button>
+              <h2 className="text-xl sm:text-2xl font-bold text-white drop-shadow-sm pr-4">{faq.question}</h2>
+              <motion.div
+                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${open ? 'bg-green-600' : 'bg-darkBrown/70 border border-green-900/50'}`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                animate={{ rotate: open ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ChevronDown className={`w-5 h-5 transition-transform ${open ? 'text-white' : 'text-green-400'}`} />
+              </motion.div>
+            </button>
           </div>
+
+          {/* Category tag */}
+          {faq.category && (
+            <div className="absolute top-6 right-6 z-10">
+              <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-green-900/30 text-green-400 border border-green-900/50">
+                {faq.category}
+              </span>
+            </div>
+          )}
 
           <AnimatePresence>
             {open && (
@@ -213,9 +317,30 @@ const Faq = memo(
                   initial={{ y: -20 }}
                   animate={{ y: 0 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="pt-2 pb-1"
+                  className="pt-4 pb-2 border-t border-green-900/30"
                 >
                   <p className="text-white font-medium leading-relaxed">{faq.answer}</p>
+
+                  {/* Helpful buttons */}
+                  <div className="mt-4 flex items-center gap-4">
+                    <p className="text-sm text-gray-400">Was this helpful?</p>
+                    <div className="flex gap-2">
+                      <motion.button
+                        className="px-3 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-900/30 hover:bg-green-900/30 transition-colors"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Yes
+                      </motion.button>
+                      <motion.button
+                        className="px-3 py-1 text-xs font-medium rounded-full bg-darkBrown/50 text-gray-400 border border-gray-800 hover:bg-darkBrown/70 transition-colors"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        No
+                      </motion.button>
+                    </div>
+                  </div>
                 </motion.div>
               </motion.div>
             )}

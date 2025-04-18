@@ -21,17 +21,19 @@ export default function createRequest(url: string, options: RequestOptions = {})
   }
 
   console.log("options: ", options);
-  alert(`options: ${options.method}`);
+  // alert(`options: ${options.method}`);
 
   if (options?.method && options.method !== 'GET') {
     console.log("options method is not get")
-    alert("options method is not get");
-    // const csrftoken = getCookie('csrftoken')
-    const csrftoken = Cookies.get('csrftoken');
-    alert(`csrftoken: ${csrftoken}`);
+    // alert("options method is not get");
+    const csrftoken = getCookie('csrftoken')
+    const csrftoken2 = Cookies.get('csrftoken');
+    console.log("csrftoken: ", csrftoken);
+    console.log("csrftoken2: ", csrftoken2);
+    // alert(`csrftoken: ${csrftoken}`);
     if (csrftoken) {
       console.log("csrftoken: ", csrftoken);
-      alert(`csrftoken: ${csrftoken}`);
+      // alert(`csrftoken: ${csrftoken}`);
       headers['x-csrftoken'] = csrftoken;
     }
   }

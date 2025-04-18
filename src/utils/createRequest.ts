@@ -1,5 +1,6 @@
 import AES from 'crypto-js/aes'
 import { getCookie } from '@arpansaha13/utils/browser'
+import Cookies from 'js-cookie';
 
 export interface RequestOptions extends Omit<RequestInit, 'body' | 'method'> {
   /** @default 'GET' */
@@ -25,7 +26,8 @@ export default function createRequest(url: string, options: RequestOptions = {})
   if (options?.method && options.method !== 'GET') {
     console.log("options method is not get")
     alert("options method is not get");
-    const csrftoken = getCookie('csrftoken')
+    // const csrftoken = getCookie('csrftoken')
+    const csrftoken = Cookies.get('csrftoken');
     alert(`csrftoken: ${csrftoken}`);
     if (csrftoken) {
       console.log("csrftoken: ", csrftoken);

@@ -38,6 +38,7 @@
     "gsap": "^3.12.7",
     "http-proxy-middleware": "^2.0.6",
     "immer": "^10.0.3",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.487.0",
     "nprogress": "^0.2.0",
     "postcss": "^8.4.32",

@@ -8,7 +8,8 @@ export interface RequestOptions extends Omit<RequestInit, 'body' | 'method'> {
   body?: Record<string, any>
 }
 
-export const FETCH_BASE_URL = import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.mokshaix.in/'
+// export const FETCH_BASE_URL = import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.mokshaix.in/'
+export const FETCH_BASE_URL = import.meta.env.DEV ? 'https://api.mokshaix.in/' : 'https://api.mokshaix.in/'
 
 /**
  * Create request object for Fetch API with credentials allowed.
@@ -17,6 +18,8 @@ export default function createRequest(url: string, options: RequestOptions = {})
   let headers: RequestOptions['headers'] = {
     'Content-Type': 'text/plain',
   }
+
+  console.log("options: ", options);
 
   if (options?.method && options.method !== 'GET') {
     console.log("options method is not get")

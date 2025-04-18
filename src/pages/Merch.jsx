@@ -47,6 +47,18 @@ export function Component() {
         src: 'images/merch/black-1024x900.png',
         alt: 'Moksha 2024 merch (black)',
       },
+      {
+        sources: [
+          { srcSet: 'images/merch/white-1024x900.webp', type: 'image/webp' },
+          { srcSet: 'images/merch/white-1024x900.png', type: 'image/png' },
+        ],
+        src: 'images/merch/white-1024x900.png',
+        alt: 'Moksha 2024 merch (white)',
+      },
+      {
+        src: 'images/merch/MOKSHA IX OFFICIAL MERCH (1).jpg',
+        alt: 'Moksha IX Official Merchandise',
+      },
     ]
   }, [])
 
@@ -363,6 +375,114 @@ export function Component() {
               </div>
             </motion.div>
           </div>
+
+          {/* Additional Merchandise Images Section */}
+          <motion.div
+            className="mt-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <div className="flex justify-center mb-8">
+              <h3 className="text-2xl font-bold text-amber-400 font-[Orbitron] relative inline-block">
+                MERCHANDISE GALLERY
+                <motion.span
+                  className="absolute -inset-1 rounded-lg blur-sm bg-amber-400/20 z-0"
+                  animate={{ opacity: [0.2, 0.5, 0.2] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Merchandise Image 1 */}
+              <motion.div
+                className="relative overflow-hidden rounded-lg group"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70 z-10" />
+                <img
+                  src="images/merch/black-1024x900.png"
+                  alt="Moksha Merchandise - Black T-shirt"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute bottom-0 left-0 p-4 z-20">
+                  <h4 className="text-white font-bold text-lg">Black T-shirt</h4>
+                  <p className="text-amber-300 text-sm">Official Moksha IX Merchandise</p>
+                </div>
+              </motion.div>
+
+              {/* Merchandise Image 2 */}
+              <motion.div
+                className="relative overflow-hidden rounded-lg group"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70 z-10" />
+                <img
+                  src="images/merch/white-1024x900.png"
+                  alt="Moksha Merchandise - White T-shirt"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute bottom-0 left-0 p-4 z-20">
+                  <h4 className="text-white font-bold text-lg">White T-shirt</h4>
+                  <p className="text-amber-300 text-sm">Official Moksha IX Merchandise</p>
+                </div>
+              </motion.div>
+
+              {/* Merchandise Image 3 */}
+              <motion.div
+                className="relative overflow-hidden rounded-lg group"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70 z-10" />
+                <img
+                  src="images/merch/MOKSHA IX OFFICIAL MERCH (1).jpg"
+                  alt="Moksha IX Official Merchandise"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute bottom-0 left-0 p-4 z-20">
+                  <h4 className="text-white font-bold text-lg">Limited Edition</h4>
+                  <p className="text-amber-300 text-sm">Exclusive Moksha IX Design</p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Call to action */}
+            <div className="mt-10 text-center">
+              <motion.button
+                className="px-6 py-2.5 bg-gradient-to-r from-amber-600 to-amber-700 rounded-md text-white font-medium
+                shadow-lg shadow-amber-700/30 hover:shadow-amber-700/50 transition-all overflow-hidden relative group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {/* Button glow effect */}
+                <motion.span
+                  className="absolute inset-0 bg-gradient-to-r from-amber-500/30 to-amber-600/30"
+                  animate={{
+                    opacity: [0.5, 0.8, 0.5],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+
+                {/* Shine effect on hover */}
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-in-out" />
+
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M17,18A2,2 0 0,1 19,20A2,2 0 0,1 17,22C15.89,22 15,21.1 15,20C15,18.89 15.89,18 17,18M1,2H4.27L5.21,4H20A1,1 0 0,1 21,5C21,5.17 20.95,5.34 20.88,5.5L17.3,11.97C16.96,12.58 16.3,13 15.55,13H8.1L7.2,14.63L7.17,14.75A0.25,0.25 0 0,0 7.42,15H19V17H7C5.89,17 5,16.1 5,15C5,14.65 5.09,14.32 5.24,14.04L6.6,11.59L3,4H1V2M7,18A2,2 0 0,1 9,20A2,2 0 0,1 7,22C5.89,22 5,21.1 5,20C5,18.89 5.89,18 7,18M16,11L18.78,6H6.14L8.5,11H16Z" />
+                  </svg>
+                  <span>ORDER YOUR MERCH NOW</span>
+                </span>
+              </motion.button>
+
+              <p className="mt-4 text-gray-400 text-sm">
+                Limited stock available. Pre-order to secure your merchandise.
+              </p>
+            </div>
+          </motion.div>
         </Container>
       </section>
     </>

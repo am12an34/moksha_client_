@@ -19,8 +19,12 @@ export default function createRequest(url: string, options: RequestOptions = {})
   }
 
   if (options?.method && options.method !== 'GET') {
+    console.log("options method is not get")
     const csrftoken = getCookie('csrftoken')
-    if (csrftoken) headers['x-csrftoken'] = csrftoken
+    if (csrftoken) {
+      console.log("csrftoken: ", csrftoken);
+      headers['x-csrftoken'] = csrftoken;
+    }
   }
 
   if (options?.headers) {

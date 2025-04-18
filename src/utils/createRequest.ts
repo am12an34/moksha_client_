@@ -1,5 +1,6 @@
 import AES from 'crypto-js/aes'
 import { getCookie } from '@arpansaha13/utils/browser'
+import Cookies from 'js-cookie';
 
 export interface RequestOptions extends Omit<RequestInit, 'body' | 'method'> {
   /** @default 'GET' */
@@ -8,7 +9,8 @@ export interface RequestOptions extends Omit<RequestInit, 'body' | 'method'> {
   body?: Record<string, any>
 }
 
-export const FETCH_BASE_URL = import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.mokshaix.in/'
+// export const FETCH_BASE_URL = import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.mokshaix.in/'
+export const FETCH_BASE_URL = import.meta.env.DEV ? 'https://api.mokshaix.in/' : 'https://api.mokshaix.in/'
 
 /**
  * Create request object for Fetch API with credentials allowed.
@@ -18,9 +20,22 @@ export default function createRequest(url: string, options: RequestOptions = {})
     'Content-Type': 'text/plain',
   }
 
+  console.log("options: ", options);
+  // alert(`options: ${options.method}`);
+
   if (options?.method && options.method !== 'GET') {
+    console.log("options method is not get")
+    // alert("options method is not get");
     const csrftoken = getCookie('csrftoken')
-    if (csrftoken) headers['x-csrftoken'] = csrftoken
+    const csrftoken2 = Cookies.get('csrftoken');
+    console.log("csrftoken: ", csrftoken);
+    console.log("csrftoken2: ", csrftoken2);
+    // alert(`csrftoken: ${csrftoken}`);
+    if (csrftoken) {
+      console.log("csrftoken: ", csrftoken);
+      // alert(`csrftoken: ${csrftoken}`);
+      headers['x-csrftoken'] = csrftoken;
+    }
   }
 
   if (options?.headers) {

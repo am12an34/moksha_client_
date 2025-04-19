@@ -10,7 +10,7 @@ export interface RequestOptions extends Omit<RequestInit, 'body' | 'method'> {
 }
 
 // export const FETCH_BASE_URL = import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.mokshaix.in/'
-export const FETCH_BASE_URL = import.meta.env.DEV ? 'https://moksha-server-5kx8.onrender.com' : 'https://moksha-server-5kx8.onrender.com'
+export const FETCH_BASE_URL = import.meta.env.DEV ? 'https://api.mokshaix.in' : 'https://api.mokshaix.in'
 
 /**
  * Create request object for Fetch API with credentials allowed.

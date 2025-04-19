@@ -9,19 +9,19 @@ const contacts: Contact[] = [{
     name: 'Soumyadeep Acharya', 
     designation: 'GS Cultural, NIT Agartala',
     whatsApp: '+91 69097 19953',
-    email: 'santhoshkemsarapu02@gmail.com',
+    email: 'soumyadeepacharya42@gmail.com',
   },
   {
     name: 'Shruba Das', 
     designation: 'AGS Cultural, NIT Agartala',
-    whatsApp: '+91 84148 35297',
-    email: 'santhoshkemsarapu02@gmail.com',
+    whatsApp: ' +91 84148 35297',
+    email: 'shrubadas035@gmail.com',
   },
   {
     name: 'Yash Alok', 
     designation: 'AGS Cultural,NIT Agartala',
     whatsApp: '+91 62049 76853',
-    email: 'santhoshkemsarapu02@gmail.com',
+    email: 'alokyash6503@gmail.com',
   },
 ]
 

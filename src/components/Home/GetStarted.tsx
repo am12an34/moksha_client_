@@ -1,8 +1,76 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Container from '~common/Container'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
 import styles from './styles.module.css'
+import { ChevronDown } from 'lucide-react'
+
+// Selected FAQs for quick access
+const quickFaqs = [
+  {
+    question: 'Why is registration necessary?',
+    answer:
+      "Registering on the website will generate a unique Moksha ID. This ID is essential for participation or entry to all the activities going on during Moksha. If you want to register for a competition or collect concert passes, you'll need to have a Moksha ID."
+  },
+  {
+    question: 'How do I register for competitions at Moksha?',
+    answer:
+      'Registration for the competitions can be done through the official website of Moksha by filling in your personal details.'
+  },
+  {
+    question: 'Is the cultural fest open to students from other colleges and universities?',
+    answer:
+      "It is open to all the students bearing the Moksha ticket. No entry will be provided to anyone who fails to provide it during the entry, even if he/she is a student of NITA."
+  }
+];
+
+// FAQ Item Component
+const FaqItem = ({ faq, index }: { faq: { question: string; answer: string }, index: number }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <motion.div
+      className="mb-3 last:mb-0 overflow-hidden rounded-lg bg-gradient-to-r from-black/40 to-black/60 backdrop-blur-sm border border-white/5 hover:border-green-500/20 transition-all duration-300"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+      whileHover={{ boxShadow: '0 4px 20px rgba(74, 222, 128, 0.1)' }}
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex justify-between items-center p-4 text-left group"
+        aria-expanded={isOpen}
+      >
+        <h3 className="text-lg font-medium text-white group-hover:text-green-400 transition-colors duration-300">{faq.question}</h3>
+        <motion.div
+          className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center ${isOpen ? 'bg-gradient-to-br from-green-500 to-green-700' : 'bg-gradient-to-br from-darkBrown/70 to-brown/70 border border-green-900/50'}`}
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ChevronDown className={`w-4 h-4 ${isOpen ? 'text-white' : 'text-green-400'}`} />
+        </motion.div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 pb-4 text-gray-300 border-t border-white/5 pt-2">
+              {faq.answer}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
 
 export default function GetStarted() {
   const sectionRef = useRef(null);
@@ -130,49 +198,55 @@ export default function GetStarted() {
           />
 
           {/* Content container */}
-          <div className="relative bg-black/40 backdrop-blur-md rounded-xl p-8 border border-white/10 z-10">
+          <div className="relative bg-gradient-to-br from-black/70 via-black/50 to-black/60 backdrop-blur-md rounded-2xl p-10 border border-green-500/10 shadow-2xl shadow-green-900/20 z-10 overflow-hidden">
+            {/* Decorative background patterns */}
+            <div className="absolute inset-0 opacity-10 z-0 overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(74,222,128,0.1),transparent_40%)]" />
+              <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_80%,rgba(252,211,77,0.1),transparent_40%)]" />
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoLTZ2LTZoNnptLTYtMTJ2NmgtNnYtNmg2em0tNiA2djZoLTZ2LTZoNnptMTIgMHY2aDZWNDBoLTZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20" />
+            </div>
             {/* Decorative elements */}
-            <div className="absolute top-0 left-0 w-16 h-16 opacity-20">
+            <div className="absolute top-6 left-6 w-16 h-16 opacity-10">
               <svg viewBox="0 0 24 24" className="w-full h-full text-green-400">
                 <path fill="currentColor" d="M12,3C16.97,3 21,7.03 21,12C21,16.97 16.97,21 12,21C7.03,21 3,16.97 3,12C3,7.03 7.03,3 12,3M12,5C8.14,5 5,8.14 5,12C5,15.86 8.14,19 12,19C15.86,19 19,15.86 19,12C19,8.14 15.86,5 12,5M12,7C14.76,7 17,9.24 17,12C17,14.76 14.76,17 12,17C9.24,17 7,14.76 7,12C7,9.24 9.24,7 12,7M12,9C10.34,9 9,10.34 9,12C9,13.66 10.34,15 12,15C13.66,15 15,13.66 15,12C15,10.34 13.66,9 12,9Z" />
               </svg>
             </div>
-            <div className="absolute bottom-0 right-0 w-20 h-20 opacity-20">
+            <div className="absolute bottom-6 right-6 w-20 h-20 opacity-10">
               <svg viewBox="0 0 24 24" className="w-full h-full text-amber-400">
                 <path fill="currentColor" d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
               </svg>
             </div>
 
-            {/* Title with animated glow */}
-            <motion.h2
-              className="text-3xl md:text-4xl font-bold text-green-400 mb-6 font-[Orbitron] relative inline-block"
-              animate={isInView ? {
-                textShadow: [
-                  '0 0 5px rgba(74, 222, 128, 0.5)',
-                  '0 0 20px rgba(74, 222, 128, 0.8)',
-                  '0 0 5px rgba(74, 222, 128, 0.5)'
-                ]
-              } : {}}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <motion.span
-                className="absolute -inset-1 rounded-lg blur-sm bg-green-400/20 z-0"
-                animate={{ opacity: [0.2, 0.5, 0.2] }}
-                transition={{ duration: 2, repeat: Infinity }}
+            {/* Content wrapper with relative positioning */}
+            <div className="relative z-10">
+
+            {/* Title with cleaner animation */}
+            <div className="relative mb-8 inline-block">
+              {/* Static glow effect instead of animated */}
+              <div className="absolute -inset-1 rounded-lg blur-md bg-gradient-to-r from-green-400/10 to-emerald-500/10 z-0"></div>
+
+              <h2 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 font-[Orbitron] relative z-10">
+                Begin Your Adventure
+              </h2>
+
+              {/* Subtle highlight animation that doesn't blur the text */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-green-400/10 to-transparent z-5 pointer-events-none"
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               />
-              <span className="relative z-10">Begin Your Adventure</span>
-            </motion.h2>
+            </div>
 
             {/* Description with thematic styling */}
             <motion.p
-              className='text-lg text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed'
+              className='text-lg text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed backdrop-blur-sm py-3 px-6 rounded-lg bg-black/10 border border-white/5 shadow-inner'
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Step through the ancient gateway and enter the mystical realm of Erden! Discover enchanted
-              <Link to='/events' className="text-green-400 hover:text-green-300 transition-colors font-medium">events</Link> and{' '}
-              <Link to='/contests' className="text-amber-400 hover:text-amber-300 transition-colors font-medium">contests</Link> that await brave travelers in this land of wonder and magic.
+              Step through the ancient gateway and enter the mystical realm of Erden! Discover enchanted{' '}
+              <Link to='/events' className="text-green-400 hover:text-green-300 transition-colors font-medium underline decoration-green-500/30 underline-offset-2 hover:decoration-green-500/50">events</Link> and{' '}
+              <Link to='/contests' className="text-amber-400 hover:text-amber-300 transition-colors font-medium underline decoration-amber-500/30 underline-offset-2 hover:decoration-amber-500/50">contests</Link> that await brave travelers in this land of wonder and magic.
             </motion.p>
 
             {/* Buttons with enhanced styling */}
@@ -184,9 +258,9 @@ export default function GetStarted() {
             >
               <Link to='/events'>
                 <motion.button
-                  className="group relative px-8 py-4 bg-gradient-to-br from-green-600 to-green-800 rounded-lg text-white font-medium
-                  overflow-hidden shadow-lg shadow-green-900/30 border border-green-500/20"
-                  whileHover={{ scale: 1.05 }}
+                  className="group relative px-8 py-4 bg-gradient-to-br from-green-600 to-green-800 rounded-full text-white font-medium
+                  overflow-hidden shadow-xl shadow-green-900/30 border border-green-500/20 hover:border-green-500/40 transition-all duration-300"
+                  whileHover={{ scale: 1.05, y: -3 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   {/* Button glow effect */}
@@ -210,9 +284,9 @@ export default function GetStarted() {
 
               <Link to='/contests'>
                 <motion.button
-                  className="group relative px-8 py-4 bg-gradient-to-br from-amber-600 to-amber-800 rounded-lg text-white font-medium
-                  overflow-hidden shadow-lg shadow-amber-900/30 border border-amber-500/20"
-                  whileHover={{ scale: 1.05 }}
+                  className="group relative px-8 py-4 bg-gradient-to-br from-amber-600 to-amber-800 rounded-full text-white font-medium
+                  overflow-hidden shadow-xl shadow-amber-900/30 border border-amber-500/20 hover:border-amber-500/40 transition-all duration-300"
+                  whileHover={{ scale: 1.05, y: -3 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   {/* Button glow effect */}
@@ -233,6 +307,52 @@ export default function GetStarted() {
                 </motion.button>
               </Link>
             </motion.div>
+
+            {/* FAQ Section */}
+            <motion.div
+              className="mt-12 text-left"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              <div className="flex items-center justify-center mb-8">
+                <div className="h-px bg-gradient-to-r from-transparent via-green-500/30 to-transparent flex-grow"></div>
+                <div className="relative px-4">
+                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 font-[Orbitron] relative z-10">Quick Guide</h3>
+                  <div className="absolute -inset-1 rounded-full blur-md bg-green-500/10 z-0"></div>
+                </div>
+                <div className="h-px bg-gradient-to-r from-transparent via-green-500/30 to-transparent flex-grow"></div>
+              </div>
+
+              <div className="bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm rounded-xl border border-white/10 p-5 shadow-lg shadow-green-900/10">
+                {quickFaqs.map((faq, index) => (
+                  <FaqItem key={index} faq={faq} index={index} />
+                ))}
+
+                <motion.div
+                  className="mt-6 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2 }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Link
+                      to="/faqs"
+                      className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-green-600/30 to-green-800/30 hover:from-green-600/40 hover:to-green-800/40 border border-green-500/20 text-green-400 hover:text-green-300 transition-all duration-300 font-medium shadow-md shadow-green-900/10"
+                    >
+                    <span>View all FAQs</span>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
+                    </svg>
+                    </Link>
+                  </motion.div>
+                </motion.div>
+              </div>
+            </motion.div>
+            </div>
           </div>
         </motion.div>
       </Container>

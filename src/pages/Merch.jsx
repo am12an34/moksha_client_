@@ -270,28 +270,6 @@ export function Component() {
           {/* Additional Merchandise Images */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {/* First merchandise item */}
-            <motion.div
-              className="relative overflow-hidden rounded-lg group"
-              whileHover={{ scale: 1.02 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{
-                duration: 0.5,
-                delay: 0.1,
-                hover: { duration: 0.3 }
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70 z-10" />
-              <img
-                src="images/merch/black-1024x900.png"
-                alt="Moksha Merchandise - Black T-shirt"
-                className="w-full h-64 sm:h-72 md:h-80 object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute bottom-0 left-0 p-4 z-20">
-                <h4 className="text-white font-bold text-lg">Black T-shirt</h4>
-                <p className="text-amber-300 text-sm">Official Moksha IX Merchandise</p>
-              </div>
-            </motion.div>
 
             {/* Second merchandise item */}
             <motion.div

@@ -1,11 +1,8 @@
-import React from 'react'
+// Footer component
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
 import { motion } from 'framer-motion'
 import instagramIcon from '@iconify-icons/mdi/instagram'
-import facebookIcon from '@iconify-icons/mdi/facebook'
-import twitterIcon from '@iconify-icons/mdi/twitter'
-import discordIcon from '@iconify-icons/mdi/discord'
 import MokshaLogo from '~/components/pictures/MokshaLogo'
 import { navTabs } from '../data/tabs'
 
@@ -15,24 +12,6 @@ const socialLinks = Object.freeze([
     href: 'https://www.instagram.com/moksha.nita/?igshid=MzRlODBiNWFlZA%3D%3D',
     icon: instagramIcon,
     color: '#E1306C'
-  },
-  {
-    name: 'Facebook',
-    href: 'https://www.facebook.com/moksha.nita/',
-    icon: facebookIcon,
-    color: '#4267B2'
-  },
-  {
-    name: 'Twitter',
-    href: 'https://twitter.com/moksha_nita',
-    icon: twitterIcon,
-    color: '#1DA1F2'
-  },
-  {
-    name: 'Discord',
-    href: 'https://discord.gg/moksha-community',
-    icon: discordIcon,
-    color: '#5865F2'
   }
 ])
 
@@ -211,10 +190,10 @@ function Footer() {
             <div className='mt-6 text-center md:text-left'>
               <p className='text-gray-400 text-sm'>Contact us at:</p>
               <a
-                href='mailto:moksha.nita.web@gmail.com'
+                href='mailto:moksha.nita.fest@gmail.com'
                 className='text-green-400 hover:text-green-300 transition-colors'
               >
-                moksha.nita.web@gmail.com
+                moksha.nita.fest@gmail.com
               </a>
             </div>
           </motion.div>

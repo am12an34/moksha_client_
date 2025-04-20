@@ -27,7 +27,7 @@ export function Component() {
             rel='noopener noreferrer'
             className='font-medium text-emerald-600 hover:text-emerald-500'
           >
-            moksha.nita.web@gmail.com
+            moksha.nita.fest@gmail.com
           </a>
         </p>
       </div>

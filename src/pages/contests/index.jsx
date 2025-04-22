@@ -69,7 +69,7 @@ const UdaanContests = memo(
 const MokshaContests = memo(
   ({ className, mokshaContestsMap }) => (
     <Container className={className}>
-      <h2 className='text-4xl text-center  font-bold border-b-2 border-green-500'>Moksha</h2>
+      <h2 className='text-4xl text-center  font-bold border-b-2 border-green-500'>MOKSHA</h2>
 
       {Object.keys(mokshaContestsMap).map(clubSlug => (
         <ClubContests key={clubSlug} clubSlug={clubSlug} contests={mokshaContestsMap[clubSlug]} />

@@ -130,7 +130,7 @@ function Footer() {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              ECHOES OF ERDEN
+              MOKSHA IX
             </motion.h3>
             <p className='text-gray-300 text-sm text-center md:text-left'>
               Step into a realm where magic and reality intertwine, where every moment becomes a memory to cherish.

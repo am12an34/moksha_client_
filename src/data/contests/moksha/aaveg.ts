@@ -4,11 +4,12 @@ import type { Contest } from '~/types'
 export const aaveg: Contest[] = [
   {
     id: 12,
-    type: 'solo',
+    type: 'team',
     slug: 'parichay',
     name: 'Rangmanch ',
     subtitle: 'Stage Drama Competition',
-    badges: ['solo'],
+    badges: ['team'],
+    allowedTeamSize: { min: 3, max: 15 },
     image: {
       src: '/images/contests/generic-poster.png',
     },
@@ -21,7 +22,7 @@ export const aaveg: Contest[] = [
         p: 'Step into the spotlight where emotions run high, stories come alive, and every line is delivered with passion. Rangmanch is your chance to showcase your theatrical talent and leave the audience in awe. Whether it\'s a gripping social drama, a hilarious comedy, or a thrilling plot twist worthy of a Bollywood climax, this is not just a play—it\'s an unforgettable performance.',
       },
       {
-        p: 'To all the drama actors out there, this is your best chance to hog the limelight and own the stage!! This will be your moment of glory and your chance to steal the show, so prepare yourself and dazzle the audience with your talent and show yourself to be a master of impromptu action.',
+        p: 'To all the drama teams out there, this is your best chance to hog the limelight and own the stage!! This will be your moment of glory and your chance to steal the show, so prepare your team and dazzle the audience with your collective talent and show yourselves to be masters of theatrical performance.',
       },
     ],
 
@@ -40,10 +41,11 @@ export const aaveg: Contest[] = [
         ],
       },
       {
-        heading: "Theme & Language"
+        heading: "Team Size & Theme"
       },
       {
         ul: [
+          'Teams must have a minimum of 3 and a maximum of 15 members.',
           'The theme is open to all genres—thriller, comedy, horror, romance, and more!',
           'Performances must be in Hindi or English.',
           'Teams are encouraged to explore various theatrical styles, including musical dramas for an extra flair!',
@@ -120,7 +122,7 @@ export const aaveg: Contest[] = [
     slug: 'ad-mockery-matchup',
     name: 'Ad Mockery',
     subtitle: 'Sell ANY Product, Your way!',
-    badges: ['open'],
+    badges: ['team'],
     allowedTeamSize: { min: 1, max: 6 },
     image: {
       src: '/images/contests/generic-poster.png',
